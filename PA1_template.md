@@ -1,9 +1,4 @@
----
-title: "Reproducible Research: Peer Assessment 1"
-output: 
-  html_document:
-    keep_md: true
----
+# Reproducible Research: Peer Assessment 1
 
 
 ## Loading and preprocessing the data
@@ -14,14 +9,20 @@ November, 2012, including the number of steps taken.
 
 The first step is to load the data from the forked repository from [Github] (https://github.com/kpivert/RepData_PeerAssessment1). 
 
-```{r}
-        
-        ## Unzip activity.zip  
+
+```r
+        ## Unzip and Review File Names   
         activityData <- unzip("/Users/kpivert/RepData_PeerAssessment1/activity.zip")
-        
+        activityData ## list of files names in unzipped folder
+```
+
+```
+## [1] "./activity.csv"
+```
+
+```r
         ## Read Data 
         stepData <- read.csv(activityData)
-
 ```
 
 ## What is mean total number of steps taken per day?
