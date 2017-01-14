@@ -21,7 +21,6 @@ First, will load required packages for this document and analysis.
         require(ggplot2)
         require(knitr)
         require(mice)
-
 ```
 
 
@@ -43,7 +42,6 @@ Finally, will examine the structure of the `stepData` dataframe.
 ```{r structure and summary of stepData, echo=TRUE}
 
         str(stepData)
-
         summary(stepData)
         
 ```        
@@ -56,7 +54,7 @@ Finally, will examine the structure of the `stepData` dataframe.
 * Will calculate total number of steps by day and produce a histogram of total 
 steps by day. 
 
-```{r total values and histogram, echo=TRUE}
+```{r total steps histogram with NAs removed, echo=TRUE}
         ## Calculate Total Steps By Date
         
         totalSteps <- aggregate(steps ~ date, data = stepData, sum, na.action = na.omit)
@@ -65,7 +63,8 @@ steps by day.
 
         totalStepsHist <- ggplot(totalSteps, aes(steps))
         
-        totalStepsHist + geom_histogram(binwidth = 500, color="grey", fill ="#003366") + 
+        totalStepsHist + geom_histogram(binwidth = 1000, color="grey", 
+            fill ="#003366") + 
           theme_bw()+
           ylab("Number of Days")+
           xlab("Total Steps Per Day")+
@@ -84,44 +83,18 @@ steps by day.
 
       ## Mean Steps Per Day for 2-Month Period
       
-      mean(stepData$steps, na.rm = TRUE)
+      mean(totalSteps$steps, na.rm = TRUE)
       
 
       ## Median Steps Per Day for 2-Month Period
       
-      median(stepData$steps, na.rm = TRUE)
+      median(totalSteps$steps, na.rm = TRUE)
       
 ```      
 
+Mean number of steps per day: 10766.19
 
-* Will also determine the mean and median total number of steps per day. Per 
-instructions, will ignore missing values for this calculation. Report each set of 
-values in separate tables below.
-
-```{r mean median, echo=TRUE}
-
-        ## Calculate Mean and Median Steps per day
-
-        ## Mean Steps Per Day
-
-        averageSteps <- aggregate(steps ~ date, data = stepData, mean, na.rm = TRUE)
-        averageSteps$date <- strftime(averageSteps$date, format = "%B %d, %Y")
-        
-        ## Print Table With Mean Number of Steps Per Day
-        kable(averageSteps, digits = 2, col.names = c("Date", "Mean No. of Steps"), 
-              align = "c", 
-              caption = "Mean Number of Steps per Day \n Raw Dataset with NAs Removed")
-        
-        ## Median Steps Per Day
-        medianSteps <- aggregate(steps ~ date, data = stepData, median, na.rm = TRUE)
-        medianSteps$date <- strftime(medianSteps$date, format = "%B %d, %Y")
-        
-        ## Print Table With Median Number of Steps Per Day
-        kable(medianSteps, digits = 2, col.names = c("Date", "Median No. of Steps"), 
-              align = "c", caption = "Median Number of Steps per Day \n Raw Dataset with NAs Removed")
-        
-```
-
+Median number of steps per day: 10765
 
 ## What is the average daily activity pattern?
 
@@ -163,6 +136,8 @@ values in separate tables below.
         averageInt[which.max(averageInt$steps),1] ## Interval 835 or 8:35 a.m. 
 ```
 
+Maximum number of steps in 5-minute interval ocurred at 8:35 a.m. (or 0835).
+
 ## Imputing missing values
 
 1. Calculate and report the number of `NA` values.
@@ -170,13 +145,13 @@ values in separate tables below.
 ```{r calculate NAs, echo=TRUE}
         
         ## Determine number of NA values in dataframe
-        ## apply(stepData, function(x) sum(is.na(x))) Original Code Didn't Work With             Knitr
-
+       
         apply(is.na(stepData),2,sum)
 ```
 
 2. Devise a strategy for filling in all of the missing values in the dataset. 
 Create a new dataset that is equal to the original dataset but with the missing data filled in.
+
 * Will use `MICE` package with default settings to complete missing values
 
 ```{r impute missing values, echo=TRUE}
@@ -199,7 +174,7 @@ Create a new dataset that is equal to the original dataset but with the missing 
 
         totalImputedStepsHist <- ggplot(totalImputedSteps, aes(steps))
         
-        totalImputedStepsHist + geom_histogram(binwidth = 500, color="grey", fill ="#003366") + 
+        totalImputedStepsHist + geom_histogram(binwidth = 1000, color="grey", fill ="#003366") + 
           theme_bw()+
           ylab("Number of Days")+
           xlab("Total Steps Per Day")+
@@ -211,61 +186,37 @@ Create a new dataset that is equal to the original dataset but with the missing 
 
 
 4. Calculate and report the mean and median total number of steps taken per day. 
-* First calculate mean and median steps per day
 
-```{r mean and median of imputed dataset per day, echo=TRUE}
-        
-        ## Calculate Mean and Median Steps per day: Imputed Dataset
-
-        ## Mean Steps Per Day
-
-        averageImpSteps <- aggregate(steps ~ date, data = imputedStepData, mean)
-        averageImpSteps$date <- strftime(averageImpSteps$date, format = "%B %d, %Y")
-        
-        ## Print Table With Mean Number of Steps Per Day: Imputed Dataset
-        kable(averageImpSteps, digits = 2, col.names = c("Date", "Mean No. of Steps"),
-              align = "c", 
-              caption = "Mean Number of Steps per Day \n Imputed Dataset")
-        
-        ## Median Steps Per Day
-        medianImpSteps <- aggregate(steps ~ date, data = imputedStepData, median)
-        medianImpSteps$date <- strftime(medianImpSteps$date, format = "%B %d, %Y")
-        
-        ## Print Table With Median Number of Steps Per Day: Imputed Dataset
-        kable(medianImpSteps, digits = 2, col.names = c("Date", "Median No. of Steps"), 
-              align = "c", caption = "Median Number of Steps per Day \n Imputed Dataset")
-
-```
-
-* Then calculate overall mean and median steps per day for imputed dataset across 2-month data period. 
+* Calculate overall mean and median steps per day for imputed dataset across 2-month data period. 
 
 ```{r mean and median for 2-month period imputed dataset, echo=TRUE}
 
       ## Mean Steps Per Day for 2-Month Period: Imputed Dataset
       
-      mean(imputedStepData$steps)
+      mean(totalImputedSteps$steps)
       
 
       ## Median Steps Per Day for 2-Month Period: Imputed Dataset
       
-      median(imputedStepData$steps)
+      median(totalImputedSteps$steps)
       
 ```   
 
 #### Do these values differ from the estimates from the first part of the assignment? 
-* **Raw Datset Overall Mean:** 37.38 steps per day
-* **Imputed Dataset Overall Mean:** 37.91 steps per day
+
+* **Raw Datset Mean Steps Per Day:** 10766.19
+* **Imputed Dataset Mean Steps Per Day:** 10768.62 
 
 *There is a minimal difference in mean steps per day between the raw and imputed dataset.*
 
-* **Raw Datset Overall Median:** 0 steps per day
-* **Imputed Dataset Overall Median:** 0 steps per day
+* **Raw Datset Median Steps Per Day:** 10765 
+* **Imputed Dataset Median Steps Per Day:** 10600
 
-*There is no difference in median steps per day between the raw and imputed dataset.*
+*The median steps per day between the raw and imputed dataset differed more substantially than the mean, by 165 steps.*
 
 #### What is the impact of imputing missing data on the estimates of the total daily number of steps?   
 
-***Imputing missing data has no affect on estimatse of total daily number of steps.***  
+***Imputing missing data had minimal effects on the mean total daily number of steps, but shifted the median by 1.6%.***  
 
 ## Are there differences in activity patterns between weekdays and weekends?
 

@@ -129,7 +129,8 @@ steps by day.
 
         totalStepsHist <- ggplot(totalSteps, aes(steps))
         
-        totalStepsHist + geom_histogram(binwidth = 500, color="grey", fill ="#003366") + 
+        totalStepsHist + geom_histogram(binwidth = 1000, color="grey", 
+            fill ="#003366") + 
           theme_bw()+
           ylab("Number of Days")+
           xlab("Total Steps Per Day")+
@@ -138,7 +139,7 @@ steps by day.
           ggtitle("Total Number of Steps Per Day \n Raw Dataset with NAs Removed")
 ```
 
-![](PA1_template_files/figure-html/total values and histogram-1.png)\
+![](PA1_template_files/figure-html/total steps histogram with NAs removed-1.png)\
 
 2. Calculate and report the mean and median total number of steps taken per day
 
@@ -148,175 +149,26 @@ steps by day.
 ```r
       ## Mean Steps Per Day for 2-Month Period
       
-      mean(stepData$steps, na.rm = TRUE)
+      mean(totalSteps$steps, na.rm = TRUE)
 ```
 
 ```
-## [1] 37.3826
+## [1] 10766.19
 ```
 
 ```r
       ## Median Steps Per Day for 2-Month Period
       
-      median(stepData$steps, na.rm = TRUE)
+      median(totalSteps$steps, na.rm = TRUE)
 ```
 
 ```
-## [1] 0
+## [1] 10765
 ```
 
+Mean number of steps per day: 10766.19
 
-* Will also determine the mean and median total number of steps per day. Per 
-instructions, will ignore missing values for this calculation. Report each set of 
-values in separate tables below.
-
-
-```r
-        ## Calculate Mean and Median Steps per day
-
-        ## Mean Steps Per Day
-
-        averageSteps <- aggregate(steps ~ date, data = stepData, mean, na.rm = TRUE)
-        averageSteps$date <- strftime(averageSteps$date, format = "%B %d, %Y")
-        
-        ## Print Table With Mean Number of Steps Per Day
-        kable(averageSteps, digits = 2, col.names = c("Date", "Mean No. of Steps"), 
-              align = "c", 
-              caption = "Mean Number of Steps per Day \n Raw Dataset with NAs Removed")
-```
-
-
-
-Table: Mean Number of Steps per Day 
- Raw Dataset with NAs Removed
-
-       Date           Mean No. of Steps 
--------------------  -------------------
- October 02, 2012           0.44        
- October 03, 2012           39.42       
- October 04, 2012           42.07       
- October 05, 2012           46.16       
- October 06, 2012           53.54       
- October 07, 2012           38.25       
- October 09, 2012           44.48       
- October 10, 2012           34.38       
- October 11, 2012           35.78       
- October 12, 2012           60.35       
- October 13, 2012           43.15       
- October 14, 2012           52.42       
- October 15, 2012           35.20       
- October 16, 2012           52.38       
- October 17, 2012           46.71       
- October 18, 2012           34.92       
- October 19, 2012           41.07       
- October 20, 2012           36.09       
- October 21, 2012           30.63       
- October 22, 2012           46.74       
- October 23, 2012           30.97       
- October 24, 2012           29.01       
- October 25, 2012           8.65        
- October 26, 2012           23.53       
- October 27, 2012           35.14       
- October 28, 2012           39.78       
- October 29, 2012           17.42       
- October 30, 2012           34.09       
- October 31, 2012           53.52       
- November 02, 2012          36.81       
- November 03, 2012          36.70       
- November 05, 2012          36.25       
- November 06, 2012          28.94       
- November 07, 2012          44.73       
- November 08, 2012          11.18       
- November 11, 2012          43.78       
- November 12, 2012          37.38       
- November 13, 2012          25.47       
- November 15, 2012          0.14        
- November 16, 2012          18.89       
- November 17, 2012          49.79       
- November 18, 2012          52.47       
- November 19, 2012          30.70       
- November 20, 2012          15.53       
- November 21, 2012          44.40       
- November 22, 2012          70.93       
- November 23, 2012          73.59       
- November 24, 2012          50.27       
- November 25, 2012          41.09       
- November 26, 2012          38.76       
- November 27, 2012          47.38       
- November 28, 2012          35.36       
- November 29, 2012          24.47       
-
-```r
-        ## Median Steps Per Day
-        medianSteps <- aggregate(steps ~ date, data = stepData, median, na.rm = TRUE)
-        medianSteps$date <- strftime(medianSteps$date, format = "%B %d, %Y")
-        
-        ## Print Table With Median Number of Steps Per Day
-        kable(medianSteps, digits = 2, col.names = c("Date", "Median No. of Steps"), 
-              align = "c", caption = "Median Number of Steps per Day \n Raw Dataset with NAs Removed")
-```
-
-
-
-Table: Median Number of Steps per Day 
- Raw Dataset with NAs Removed
-
-       Date           Median No. of Steps 
--------------------  ---------------------
- October 02, 2012              0          
- October 03, 2012              0          
- October 04, 2012              0          
- October 05, 2012              0          
- October 06, 2012              0          
- October 07, 2012              0          
- October 09, 2012              0          
- October 10, 2012              0          
- October 11, 2012              0          
- October 12, 2012              0          
- October 13, 2012              0          
- October 14, 2012              0          
- October 15, 2012              0          
- October 16, 2012              0          
- October 17, 2012              0          
- October 18, 2012              0          
- October 19, 2012              0          
- October 20, 2012              0          
- October 21, 2012              0          
- October 22, 2012              0          
- October 23, 2012              0          
- October 24, 2012              0          
- October 25, 2012              0          
- October 26, 2012              0          
- October 27, 2012              0          
- October 28, 2012              0          
- October 29, 2012              0          
- October 30, 2012              0          
- October 31, 2012              0          
- November 02, 2012             0          
- November 03, 2012             0          
- November 05, 2012             0          
- November 06, 2012             0          
- November 07, 2012             0          
- November 08, 2012             0          
- November 11, 2012             0          
- November 12, 2012             0          
- November 13, 2012             0          
- November 15, 2012             0          
- November 16, 2012             0          
- November 17, 2012             0          
- November 18, 2012             0          
- November 19, 2012             0          
- November 20, 2012             0          
- November 21, 2012             0          
- November 22, 2012             0          
- November 23, 2012             0          
- November 24, 2012             0          
- November 25, 2012             0          
- November 26, 2012             0          
- November 27, 2012             0          
- November 28, 2012             0          
- November 29, 2012             0          
-
+Median number of steps per day: 10765
 
 ## What is the average daily activity pattern?
 
@@ -362,6 +214,8 @@ Table: Median Number of Steps per Day
 ## [1] 835
 ```
 
+Maximum number of steps in 5-minute interval ocurred at 8:35 a.m. (or 0835).
+
 ## Imputing missing values
 
 1. Calculate and report the number of `NA` values.
@@ -369,8 +223,7 @@ Table: Median Number of Steps per Day
 
 ```r
         ## Determine number of NA values in dataframe
-        ## apply(stepData, function(x) sum(is.na(x))) Original Code Didn't Work With             Knitr
-
+       
         apply(is.na(stepData),2,sum)
 ```
 
@@ -381,6 +234,7 @@ Table: Median Number of Steps per Day
 
 2. Devise a strategy for filling in all of the missing values in the dataset. 
 Create a new dataset that is equal to the original dataset but with the missing data filled in.
+
 * Will use `MICE` package with default settings to complete missing values
 
 
@@ -441,7 +295,7 @@ Create a new dataset that is equal to the original dataset but with the missing 
 
         totalImputedStepsHist <- ggplot(totalImputedSteps, aes(steps))
         
-        totalImputedStepsHist + geom_histogram(binwidth = 500, color="grey", fill ="#003366") + 
+        totalImputedStepsHist + geom_histogram(binwidth = 1000, color="grey", fill ="#003366") + 
           theme_bw()+
           ylab("Number of Days")+
           xlab("Total Steps Per Day")+
@@ -454,206 +308,45 @@ Create a new dataset that is equal to the original dataset but with the missing 
 
 
 4. Calculate and report the mean and median total number of steps taken per day. 
-* First calculate mean and median steps per day
 
-
-```r
-        ## Calculate Mean and Median Steps per day: Imputed Dataset
-
-        ## Mean Steps Per Day
-
-        averageImpSteps <- aggregate(steps ~ date, data = imputedStepData, mean)
-        averageImpSteps$date <- strftime(averageImpSteps$date, format = "%B %d, %Y")
-        
-        ## Print Table With Mean Number of Steps Per Day: Imputed Dataset
-        kable(averageImpSteps, digits = 2, col.names = c("Date", "Mean No. of Steps"),
-              align = "c", 
-              caption = "Mean Number of Steps per Day \n Imputed Dataset")
-```
-
-
-
-Table: Mean Number of Steps per Day 
- Imputed Dataset
-
-       Date           Mean No. of Steps 
--------------------  -------------------
- October 01, 2012           46.21       
- October 02, 2012           0.44        
- October 03, 2012           39.42       
- October 04, 2012           42.07       
- October 05, 2012           46.16       
- October 06, 2012           53.54       
- October 07, 2012           38.25       
- October 08, 2012           29.86       
- October 09, 2012           44.48       
- October 10, 2012           34.38       
- October 11, 2012           35.78       
- October 12, 2012           60.35       
- October 13, 2012           43.15       
- October 14, 2012           52.42       
- October 15, 2012           35.20       
- October 16, 2012           52.38       
- October 17, 2012           46.71       
- October 18, 2012           34.92       
- October 19, 2012           41.07       
- October 20, 2012           36.09       
- October 21, 2012           30.63       
- October 22, 2012           46.74       
- October 23, 2012           30.97       
- October 24, 2012           29.01       
- October 25, 2012           8.65        
- October 26, 2012           23.53       
- October 27, 2012           35.14       
- October 28, 2012           39.78       
- October 29, 2012           17.42       
- October 30, 2012           34.09       
- October 31, 2012           53.52       
- November 01, 2012          42.39       
- November 02, 2012          36.81       
- November 03, 2012          36.70       
- November 04, 2012          36.15       
- November 05, 2012          36.25       
- November 06, 2012          28.94       
- November 07, 2012          44.73       
- November 08, 2012          11.18       
- November 09, 2012          35.68       
- November 10, 2012          36.49       
- November 11, 2012          43.78       
- November 12, 2012          37.38       
- November 13, 2012          25.47       
- November 14, 2012          40.17       
- November 15, 2012          0.14        
- November 16, 2012          18.89       
- November 17, 2012          49.79       
- November 18, 2012          52.47       
- November 19, 2012          30.70       
- November 20, 2012          15.53       
- November 21, 2012          44.40       
- November 22, 2012          70.93       
- November 23, 2012          73.59       
- November 24, 2012          50.27       
- November 25, 2012          41.09       
- November 26, 2012          38.76       
- November 27, 2012          47.38       
- November 28, 2012          35.36       
- November 29, 2012          24.47       
- November 30, 2012          32.61       
-
-```r
-        ## Median Steps Per Day
-        medianImpSteps <- aggregate(steps ~ date, data = imputedStepData, median)
-        medianImpSteps$date <- strftime(medianImpSteps$date, format = "%B %d, %Y")
-        
-        ## Print Table With Median Number of Steps Per Day: Imputed Dataset
-        kable(medianImpSteps, digits = 2, col.names = c("Date", "Median No. of Steps"), 
-              align = "c", caption = "Median Number of Steps per Day \n Imputed Dataset")
-```
-
-
-
-Table: Median Number of Steps per Day 
- Imputed Dataset
-
-       Date           Median No. of Steps 
--------------------  ---------------------
- October 01, 2012              0          
- October 02, 2012              0          
- October 03, 2012              0          
- October 04, 2012              0          
- October 05, 2012              0          
- October 06, 2012              0          
- October 07, 2012              0          
- October 08, 2012              0          
- October 09, 2012              0          
- October 10, 2012              0          
- October 11, 2012              0          
- October 12, 2012              0          
- October 13, 2012              0          
- October 14, 2012              0          
- October 15, 2012              0          
- October 16, 2012              0          
- October 17, 2012              0          
- October 18, 2012              0          
- October 19, 2012              0          
- October 20, 2012              0          
- October 21, 2012              0          
- October 22, 2012              0          
- October 23, 2012              0          
- October 24, 2012              0          
- October 25, 2012              0          
- October 26, 2012              0          
- October 27, 2012              0          
- October 28, 2012              0          
- October 29, 2012              0          
- October 30, 2012              0          
- October 31, 2012              0          
- November 01, 2012             0          
- November 02, 2012             0          
- November 03, 2012             0          
- November 04, 2012             0          
- November 05, 2012             0          
- November 06, 2012             0          
- November 07, 2012             0          
- November 08, 2012             0          
- November 09, 2012             0          
- November 10, 2012             0          
- November 11, 2012             0          
- November 12, 2012             0          
- November 13, 2012             0          
- November 14, 2012             0          
- November 15, 2012             0          
- November 16, 2012             0          
- November 17, 2012             0          
- November 18, 2012             0          
- November 19, 2012             0          
- November 20, 2012             0          
- November 21, 2012             0          
- November 22, 2012             0          
- November 23, 2012             0          
- November 24, 2012             0          
- November 25, 2012             0          
- November 26, 2012             0          
- November 27, 2012             0          
- November 28, 2012             0          
- November 29, 2012             0          
- November 30, 2012             0          
-
-* Then calculate overall mean and median steps per day for imputed dataset across 2-month data period. 
+* Calculate overall mean and median steps per day for imputed dataset across 2-month data period. 
 
 
 ```r
       ## Mean Steps Per Day for 2-Month Period: Imputed Dataset
       
-      mean(imputedStepData$steps)
+      mean(totalImputedSteps$steps)
 ```
 
 ```
-## [1] 37.39105
+## [1] 10768.62
 ```
 
 ```r
       ## Median Steps Per Day for 2-Month Period: Imputed Dataset
       
-      median(imputedStepData$steps)
+      median(totalImputedSteps$steps)
 ```
 
 ```
-## [1] 0
+## [1] 10600
 ```
 
 #### Do these values differ from the estimates from the first part of the assignment? 
-* **Raw Datset Overall Mean:** 37.38 steps per day
-* **Imputed Dataset Overall Mean:** 37.91 steps per day
+
+* **Raw Datset Mean Steps Per Day:** 10766.19
+* **Imputed Dataset Mean Steps Per Day:** 10768.62 
+
 *There is a minimal difference in mean steps per day between the raw and imputed dataset.*
 
-* **Raw Datset Overall Median:** 0 steps per day
-* **Imputed Dataset Overall Median:** 0 steps per day
-*There is no difference in median steps per day between the raw and imputed dataset.*
+* **Raw Datset Median Steps Per Day:** 10765 
+* **Imputed Dataset Median Steps Per Day:** 10600
+
+*The median steps per day between the raw and imputed dataset differed more substantially than the mean, by 165 steps.*
 
 #### What is the impact of imputing missing data on the estimates of the total daily number of steps?   
 
-***Imputing missing data has no affect on estimatse of total daily number of steps.***  
+***Imputing missing data had minimal effects on the mean total daily number of steps, but shifted the median by 1.6%.***  
 
 ## Are there differences in activity patterns between weekdays and weekends?
 
