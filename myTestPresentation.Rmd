@@ -1,0 +1,74 @@
+---
+title: "Test Presentation"
+author: "Kurtis Pivert"
+date: "4/30/2017"
+output: ioslides_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## R Markdown
+
+This is an R Markdown presentation. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document.
+
+## Slide with Bullets
+
+- Bullet 1
+- Bullet 2
+- Bullet 3
+
+***
+This is a title-less slide
+
+
+## Example Slide with Bullets and Lists
+### Header
+#### Subheading
+
+- Bullet A
+- Bullet B
+
+1. Item number 1
+2. Item number 2
+
+
+## Slide with R Output
+
+```{r cars, echo = TRUE, comment="%"}
+summary(cars)
+```
+
+## Slide with Plot
+
+```{r pressure, echo=TRUE, eval=FALSE, comment=""}
+library(plotly)
+xvar <- rpois(100, lambda = 50)
+yvar <-rnorm(100)
+zvar <- 1:100
+plot_ly(x = xvar, y=yvar, z= zvar, type="scatter3d", color=yvar, mode = "markers")
+```
+
+
+
+## Next slide
+
+Here is some text describing this model
+
+- *Take some fake data*
+- **Build a model**
+- Print the model
+
+```{r X, echo=TRUE, cache=TRUE, comment=""}
+    
+    x <- rnorm(100)
+    y <- rnorm(100)
+    model <- lm(y ~ x)
+    summary(model)
+    
+    
+
+``` 
